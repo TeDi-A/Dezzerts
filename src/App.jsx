@@ -64,7 +64,7 @@ function App() {
   return (
     <>
       <div
-        className={`m-6 ${showCart ? "smd:grid flex flex-col gap-3" : ""} `}
+        className={`m-6 ${showCart ? "flex flex-col gap-3 smd:grid" : ""} `}
         style={{ gridTemplateColumns: showCart ? "2fr 1fr" : "initial" }}
       >
         <ProductsBar showCart={showCart}>
