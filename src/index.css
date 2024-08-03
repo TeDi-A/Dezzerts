@@ -7,15 +7,13 @@
     @apply bg-gray-300 px-3 py-1 text-xs text-gray-900;
   }
 
-  .enable-item-btn {
-    display: block;
-    background-color: rgb(251, 146, 60);
-    color: white;
-  }
-
   .show-tab {
     @apply border border-gray-100;
   }
+}
+
+.show-container {
+  border: 2px solid green;
 }
 
 h1 {
@@ -29,8 +27,14 @@ h3 {
   font-size: 1.05rem;
 }
 
-.cart {
-  background-color: burlywood;
+.show-products {
+  /* border: 1px solid green; */
+}
+
+.enable-item-btn {
+  display: block;
+  background-color: rgb(251, 146, 60);
+  color: white;
 }
 
 @keyframes shadow-drop-2-tb {
@@ -57,20 +61,6 @@ h3 {
   animation: shadow-drop-2-tb 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-@keyframes scale-in-center {
-  0% {
-    transform: scale(0);
-    transform-origin: center;
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    transform-origin: center;
-    opacity: 1;
-    width: 100vw;
-    height: 100vh;
-  }
-}
 @keyframes overlayAnimation {
   from {
     width: 0;
@@ -91,6 +81,47 @@ h3 {
 .modal-backdrop {
   background: rgba(0, 0, 0, 0.134);
   animation: overlayAnimation 0.5s forwards;
+}
+
+@keyframes cartDropAnimation {
+  0% {
+    transform: rotateX(-100deg);
+    transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+
+.cart-backdrop {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: 0.1s;
+}
+
+@keyframes cartAnimation {
+  0% {
+    transform: translateY(-15px);
+    transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+.cart {
+  right: 12.5%;
+  animation: cartAnimation 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: 0.01s;
+  z-index: 10;
 }
 
 @keyframes modalAnimation {

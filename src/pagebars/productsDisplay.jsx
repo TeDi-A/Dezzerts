@@ -1,12 +1,24 @@
 import { React, useState, useEffect } from "react";
 
+export function PageHeader({ openCart, cartcount }) {
+  return (
+    <div className="sticky top-0 bg-orange-400">
+      <button
+        onClick={openCart}
+        carttotal={cartcount}
+        className="absolute right-4 m-3 text-3xl"
+      >
+        🛒{cartcount}
+      </button>
+      <h1>All Products</h1>
+    </div>
+  );
+}
+
 export function ProductsBar({ children }) {
   return (
-    <div className="show-tab">
-      <h1>Main bar</h1>
-      <div className="grid grid-cols-2 gap-4 p-1 md:grid-cols-3 lg:grid-cols-4">
-        {children}
-      </div>
+    <div className="m-4 grid grid-cols-2 gap-4 p-1 md:grid-cols-3 lg:grid-cols-4">
+      {children}
     </div>
   );
 }
@@ -16,34 +28,34 @@ function getImage(src) {
 }
 
 export function ProductItem({
+  productImage,
+  productGroup,
+  productName,
+  productPrice,
+  productId,
+  productAbout,
   onOpenModal,
   onPurchase,
-  image,
-  group,
-  name,
-  price,
   unDeleteItem,
   deleteItem,
-  id,
-  desc,
 }) {
   const [amount, setAmount] = useState(0);
   const [disabled, setDisabled] = useState(true);
-  const [buttonText, setButtonText] = useState("🧺 Add to Cart");
+  const [buttonText, setButtonText] = useState("🛒 Add to Cart");
 
   const enablePurchaseBtn = disabled;
 
   useEffect(() => {
     if (!disabled) {
       setDisabled(amount == 0 ? true : false);
-      setButtonText(amount > 0 ? amount : "🧺 Add to Cart");
-      onPurchase(name, amount, price, id);
+      setButtonText(amount > 0 ? amount : "🛒 Add to Cart");
+      onPurchase(productName, amount, productPrice, productId);
     }
-  }, [amount, disabled, name]);
+  }, [amount, disabled, productName]);
 
   useEffect(() => {
     if (deleteItem) {
-      setButtonText("🧺 Add to Cart");
+      setButtonText("🛒 Add to Cart");
       setAmount(0);
       setDisabled(true);
       unDeleteItem();
@@ -67,16 +79,22 @@ export function ProductItem({
   function handleOnClick() {
     setButtonText(amount);
     setDisabled(false);
-    onPurchase(name, amount, price, id);
+    onPurchase(productName, amount, productPrice, productId);
     setAmount((prevAmount) => prevAmount + 1);
   }
 
   return (
     <div
-      onClick={() => onOpenModal("", name, price, desc)}
+      onClick={() =>
+        onOpenModal(event, productName, productPrice, productAbout)
+      }
       className="show-tab product-item p-4"
     >
-      <img className="product-img" src={getImage(image)} alt={name} />
+      <img
+        className="product-img"
+        src={getImage(productImage)}
+        alt={productName}
+      />
       <div className=".item-btn flex justify-center">
         <button
           disabled={disabled}
@@ -92,7 +110,7 @@ export function ProductItem({
           disabled={!enablePurchaseBtn}
           onClick={(e) => {
             e.stopPropagation();
-            handleOnClick(name);
+            handleOnClick(productName);
           }}
           className={`item-btn hover:bg-orange-400 hover:text-white ${!disabled ? "enable-item-btn" : "rounded-full"}`}
         >
@@ -110,9 +128,9 @@ export function ProductItem({
         </button>
       </div>
       <div className="item-description text-left text-sm">
-        <h3 className="text-xs">{group}</h3>
-        <h3 className="font-bold">{name}</h3>
-        <p className="text- font-bold text-orange-500">{price}$ </p>
+        <h3 className="text-xs">{productGroup}</h3>
+        <h3 className="font-bold">{productName}</h3>
+        <p className="text- font-bold text-orange-500">{productPrice}$ </p>
       </div>
     </div>
   );

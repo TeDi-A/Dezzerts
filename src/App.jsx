@@ -1,58 +1,62 @@
 import { React, useState } from "react";
 import "./App.css";
 
-import { ProductsBar, ProductItem } from "./pagebars/productsDisplay";
+import {
+  PageHeader,
+  ProductsBar,
+  ProductItem,
+} from "./pagebars/productsDisplay";
 import { productsList } from "./pagebars/productsList";
-import { Sidebar } from "./pagebars/cart";
+import { CartBar } from "./pagebars/cart";
 import { Modal } from "./Modal";
 
 function App() {
-  const [cart, setCart] = useState([
-    { id: "", name: "", quantity: "", price: "" },
-  ]);
+  const [cart, setCart] = useState([]);
   const [showCart, setshowCart] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   const [deletedItemId, setDeletedItemId] = useState(null);
   const [modalData, setModalData] = useState({ name: "", price: 0, desc: "" });
 
-  function handlePurchase(name, amount, price, id) {
+  function handlePurchase(productName, amount, productPrice, productId) {
     setCart((prevCart) => {
       const existingItem = prevCart.findIndex(
-        (cartItem) => cartItem.name === name,
+        (cartItem) => cartItem.name === productName,
       );
       let updatedCart;
       if (existingItem !== -1) {
         updatedCart = [...prevCart];
         updatedCart[existingItem] = {
-          id: id,
+          id: productId,
           ...updatedCart[existingItem],
           quantity: amount,
-          price: price * amount,
+          price: productPrice * amount,
         };
       } else {
         updatedCart = [
           ...prevCart,
           {
-            id: id,
-            name: name,
+            id: productId,
+            name: productName,
             quantity: amount,
-            price: price,
+            price: productPrice,
           },
         ];
       }
       updatedCart = updatedCart.filter((cartItem) => cartItem.quantity > 0);
-      setshowCart(updatedCart.length > 0);
-      console.log(updatedCart);
+      // setshowCart(updatedCart.length > 0);
       return updatedCart;
     });
   }
 
-  function handleOpenModal(e, name, price, desc) {
+  function handleOpenModal(e, productName, productPrice, productAbout) {
     setModalPosition({ x: e.clientX, y: e.clientY });
     setModalOpen(true);
-    setModalData({ name: name, price: price, desc: desc });
-    console.log(modalData);
+    setModalData({
+      name: productName,
+      price: productPrice,
+      about: productAbout,
+    });
   }
 
   function handleDeleteCartItem(name, id) {
@@ -61,41 +65,53 @@ function App() {
     setDeletedItemId(id);
   }
 
+  function handleCloseCart() {
+    setshowCart(false);
+  }
+  function handleOpenCart() {
+    setshowCart(true);
+  }
   return (
     <>
-      <div
-        className={`m-6 ${showCart ? "flex flex-col gap-3 smd:grid" : ""} `}
-        style={{ gridTemplateColumns: showCart ? "2fr 1fr" : "initial" }}
-      >
-        <ProductsBar showCart={showCart}>
-          {productsList.map((product) => (
-            <ProductItem
-              key={product.id}
-              id={product.id}
-              group={product.group}
-              name={product.name}
-              desc={product.desc}
-              price={product.price}
-              image={product.image}
-              onPurchase={handlePurchase}
-              onOpenModal={handleOpenModal}
-              unDeleteItem={() => setDeletedItemId(null)}
-              deleteItem={deletedItemId === product.id}
+      <div className="all-box">
+        <PageHeader openCart={handleOpenCart} cartcount={cart.length} />
+        <div className={"show-products flex flex-col"}>
+          <ProductsBar showCart={showCart}>
+            {productsList.map((product) => (
+              <ProductItem
+                key={product.id}
+                productId={product.id}
+                productGroup={product.group}
+                productName={product.name}
+                productAbout={product.desc}
+                productPrice={product.price}
+                productImage={product.image}
+                onPurchase={handlePurchase}
+                onOpenModal={handleOpenModal}
+                unDeleteItem={() => setDeletedItemId(null)}
+                deleteItem={deletedItemId === product.id}
+              />
+            ))}
+          </ProductsBar>
+          {showCart && (
+            <CartBar
+              handleDelete={handleDeleteCartItem}
+              closeCart={handleCloseCart}
+              cart={cart}
             />
-          ))}
-        </ProductsBar>
-        {showCart && (
-          <Sidebar handleDelete={handleDeleteCartItem} cart={cart} />
-        )}
-        {isModalOpen && (
-          <Modal
-            position={modalPosition}
-            onClose={() => setModalOpen(false)}
-            name={modalData.name}
-            price={modalData.price}
-            desc={modalData.desc}
-          />
-        )}
+          )}
+          {showCart == false && isModalOpen == true ? (
+            <Modal
+              position={modalPosition}
+              onClose={() => setModalOpen(false)}
+              productModalName={modalData.name}
+              productModalPrice={modalData.price}
+              productModalAbout={modalData.about}
+            />
+          ) : (
+            isModalOpen == false
+          )}
+        </div>
       </div>
     </>
   );
