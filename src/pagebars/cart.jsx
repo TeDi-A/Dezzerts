@@ -1,8 +1,9 @@
+import { useEffect } from "react";
+
 function CartItem({ name, quantity, price, DelItem }) {
   return (
     <div className="flex flex-row justify-between">
       <div className="text-left">
-        {/* <h2>{name == [] ? "Cart is Empty. Make purchases" : name}</h2> */}
         <h2>{name}</h2>
         <p>{quantity !== "" ? quantity + "x" : ""}</p>
         <p>{price !== "" ? price + "$" : ""}</p>
@@ -13,6 +14,13 @@ function CartItem({ name, quantity, price, DelItem }) {
 }
 
 export function CartBar({ cart, handleDelete, closeCart }) {
+  useEffect(() => {
+    document.body.classList.add("disable-scroll");
+    return () => {
+      document.body.classList.remove("disable-scroll");
+    };
+  }, []);
+
   return (
     <div className="cart-backdrop" onClick={closeCart}>
       <div

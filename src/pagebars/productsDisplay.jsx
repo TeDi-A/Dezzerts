@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 
 export function PageHeader({ openCart, cartcount }) {
   return (
-    <div className="sticky top-0 bg-orange-400">
+    <div className="sticky top-0 z-10 bg-orange-400">
       <button
         onClick={openCart}
         carttotal={cartcount}
@@ -15,10 +15,42 @@ export function PageHeader({ openCart, cartcount }) {
   );
 }
 
-export function ProductsBar({ children }) {
+export function IntroSection() {
   return (
-    <div className="m-4 grid grid-cols-2 gap-4 p-1 md:grid-cols-3 lg:grid-cols-4">
-      {children}
+    <div className="intro-section">
+      <div className="text-white">
+        <h1 className="text-7xl">Divine Desserts</h1>
+        <h2 className="text-5xl">Recipes for exquisite taste</h2>
+      </div>
+      <div className="h-100 h-screen z-10">
+        <img
+          className="h-full"
+          src="resources/backgrounds/section-image (2).png"
+          alt=""
+        />
+      </div>
+    </div>
+  );
+}
+
+export function NewProductsSection({ children }) {
+  return (
+    <div>
+      <h1>New Recipes</h1>
+      <div className="horizontal-scroll m-4 grid grid-flow-col grid-rows-2 gap-4 overflow-x-auto whitespace-nowrap">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export function AllProductsBar({ children }) {
+  return (
+    <div>
+      <h1>Breakfasts</h1>
+      <div className="m-4 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
+        {children}
+      </div>
     </div>
   );
 }
@@ -88,13 +120,20 @@ export function ProductItem({
       onClick={() =>
         onOpenModal(event, productName, productPrice, productAbout)
       }
-      className="show-tab product-item p-4"
+      className="show-tab product-item"
     >
       <img
         className="product-img"
         src={getImage(productImage)}
         alt={productName}
       />
+
+      <div className="item-description text-left text-sm">
+        <h3 className="text-xs">{productGroup}</h3>
+        <h3 className="font-bold">{productName}</h3>
+        <p className="text- font-bold text-orange-500">{productPrice}$ </p>
+      </div>
+
       <div className=".item-btn flex justify-center">
         <button
           disabled={disabled}
@@ -126,11 +165,6 @@ export function ProductItem({
         >
           +
         </button>
-      </div>
-      <div className="item-description text-left text-sm">
-        <h3 className="text-xs">{productGroup}</h3>
-        <h3 className="font-bold">{productName}</h3>
-        <p className="text- font-bold text-orange-500">{productPrice}$ </p>
       </div>
     </div>
   );

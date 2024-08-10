@@ -3,10 +3,12 @@ import "./App.css";
 
 import {
   PageHeader,
-  ProductsBar,
+  AllProductsBar,
   ProductItem,
+  IntroSection,
+  NewProductsSection,
 } from "./pagebars/productsDisplay";
-import { productsList } from "./pagebars/productsList";
+import { productsList, newProducts } from "./pagebars/productsList";
 import { CartBar } from "./pagebars/cart";
 import { Modal } from "./Modal";
 
@@ -73,26 +75,9 @@ function App() {
   }
   return (
     <>
-      <div className="all-box">
-        <PageHeader openCart={handleOpenCart} cartcount={cart.length} />
-        <div className={"show-products flex flex-col"}>
-          <ProductsBar showCart={showCart}>
-            {productsList.map((product) => (
-              <ProductItem
-                key={product.id}
-                productId={product.id}
-                productGroup={product.group}
-                productName={product.name}
-                productAbout={product.desc}
-                productPrice={product.price}
-                productImage={product.image}
-                onPurchase={handlePurchase}
-                onOpenModal={handleOpenModal}
-                unDeleteItem={() => setDeletedItemId(null)}
-                deleteItem={deletedItemId === product.id}
-              />
-            ))}
-          </ProductsBar>
+      <div className="inset-0">
+        <div>
+          <PageHeader openCart={handleOpenCart} cartcount={cart.length} />
           {showCart && (
             <CartBar
               handleDelete={handleDeleteCartItem}
@@ -100,18 +85,57 @@ function App() {
               cart={cart}
             />
           )}
-          {showCart == false && isModalOpen == true ? (
-            <Modal
-              position={modalPosition}
-              onClose={() => setModalOpen(false)}
-              productModalName={modalData.name}
-              productModalPrice={modalData.price}
-              productModalAbout={modalData.about}
-            />
-          ) : (
-            isModalOpen == false
-          )}
         </div>
+
+        <IntroSection />
+
+        <NewProductsSection>
+          {newProducts.map((product) => (
+            <ProductItem
+              key={product.id}
+              productId={product.id}
+              productGroup={product.group}
+              productName={product.name}
+              productAbout={product.desc}
+              productPrice={product.price}
+              productImage={product.image}
+              onPurchase={handlePurchase}
+              onOpenModal={handleOpenModal}
+              unDeleteItem={() => setDeletedItemId(null)}
+              deleteItem={deletedItemId === product.id}
+            />
+          ))}
+        </NewProductsSection>
+
+        <AllProductsBar showCart={showCart}>
+          {productsList.map((product) => (
+            <ProductItem
+              key={product.id}
+              productId={product.id}
+              productGroup={product.group}
+              productName={product.name}
+              productAbout={product.desc}
+              productPrice={product.price}
+              productImage={product.image}
+              onPurchase={handlePurchase}
+              onOpenModal={handleOpenModal}
+              unDeleteItem={() => setDeletedItemId(null)}
+              deleteItem={deletedItemId === product.id}
+            />
+          ))}
+        </AllProductsBar>
+
+        {showCart == false && isModalOpen == true ? (
+          <Modal
+            position={modalPosition}
+            onClose={() => setModalOpen(false)}
+            productModalName={modalData.name}
+            productModalPrice={modalData.price}
+            productModalAbout={modalData.about}
+          />
+        ) : (
+          isModalOpen == false
+        )}
       </div>
     </>
   );

@@ -8,12 +8,16 @@
   }
 
   .show-tab {
-    @apply border border-gray-100;
+    @apply border border-gray-400;
   }
 }
 
 .show-container {
   border: 2px solid green;
+}
+
+.all-box {
+  /* border: 4px solid teal; */
 }
 
 h1 {
@@ -28,13 +32,34 @@ h3 {
 }
 
 .show-products {
-  /* border: 1px solid green; */
+  border: 1px solid green;
 }
 
 .enable-item-btn {
   display: block;
   background-color: rgb(251, 146, 60);
   color: white;
+}
+
+.intro-section {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: #282828;
+  background-size: cover;
+  background-position: center;
+  background-image: url("resources/backgrounds/wave-haikei.svg");
+}
+
+.new-section {
+  height: fit-content;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.new-section div {
+  display: inline-block;
 }
 
 @keyframes shadow-drop-2-tb {
@@ -49,9 +74,13 @@ h3 {
 }
 
 .product-item {
-  background-position: center;
   transition: all 0.5s ease;
   border-radius: 10px;
+  padding: 1rem;
+}
+
+.horizontal-scroll .product-item {
+  width: 250px;
 }
 
 .product-item:hover {
@@ -97,17 +126,20 @@ h3 {
 }
 
 .cart-backdrop {
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 100vh; */
+  width: 100%;
+  height: 100%;
   position: fixed;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
   animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation-delay: 0.1s;
 }
 
 @keyframes cartAnimation {
   0% {
-    transform: translateY(-15px);
+    transform: translateY(-25px);
     transform-origin: top;
     opacity: 0;
   }
@@ -121,7 +153,6 @@ h3 {
   right: 12.5%;
   animation: cartAnimation 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation-delay: 0.01s;
-  z-index: 10;
 }
 
 @keyframes modalAnimation {
@@ -145,4 +176,7 @@ h3 {
 
 .inactive {
   display: none;
+}
+.disable-scroll {
+  overflow: hidden;
 }
