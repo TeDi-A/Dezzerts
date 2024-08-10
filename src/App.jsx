@@ -75,17 +75,15 @@ function App() {
   }
   return (
     <>
-      <div className="inset-0">
-        <div>
-          <PageHeader openCart={handleOpenCart} cartcount={cart.length} />
-          {showCart && (
-            <CartBar
-              handleDelete={handleDeleteCartItem}
-              closeCart={handleCloseCart}
-              cart={cart}
-            />
-          )}
-        </div>
+      <div>
+        <PageHeader openCart={handleOpenCart} cartcount={cart.length} />
+        {showCart && (
+          <CartBar
+            handleDelete={handleDeleteCartItem}
+            closeCart={handleCloseCart}
+            cart={cart}
+          />
+        )}
 
         <IntroSection />
 

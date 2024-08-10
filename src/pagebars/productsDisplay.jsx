@@ -17,12 +17,12 @@ export function PageHeader({ openCart, cartcount }) {
 
 export function IntroSection() {
   return (
-    <div className="intro-section">
+    <div className="intro-section -z-10">
       <div className="text-white">
         <h1 className="text-7xl">Divine Desserts</h1>
         <h2 className="text-5xl">Recipes for exquisite taste</h2>
       </div>
-      <div className="h-100 h-screen z-10">
+      <div className="h-100 h-screen">
         <img
           className="h-full"
           src="resources/backgrounds/section-image (2).png"
